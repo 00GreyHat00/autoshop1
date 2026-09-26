@@ -15,6 +15,7 @@
   --accent-text: #ffffff;
   --border: #e4e6eb;
   --success: #22c07a;
+  --warning: #f59e0b;
   --danger: #ef4444;
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   --radius: 18px;             /* Arrondi général — MODIFIER ICI */
@@ -227,6 +228,15 @@ html, body {
   flex-shrink: 0;
 }
 
+.product-image,
+.modal-product-image {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.modal-product-image { width: 48px; height: 48px; }
+
 .product-info { flex: 1; min-width: 0; }
 .product-name { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
 .product-desc {
@@ -234,7 +244,8 @@ html, body {
   color: var(--text-muted);
   line-height: 1.4;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  white-space: pre-line;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -255,13 +266,33 @@ html, body {
 }
 
 .product-stock {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
   background: color-mix(in srgb, var(--success) 15%, transparent);
   color: var(--success);
   white-space: nowrap;
+}
+
+.product-stock i,
+.modal-stock i,
+.status-pill i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent);
+  animation: statusPulse 1.7s ease-out infinite;
+  flex: 0 0 auto;
+}
+
+@keyframes statusPulse {
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
 
 .product-stock.out {
@@ -276,6 +307,7 @@ html, body {
   color: var(--text-muted);
   font-size: 12px;
 }
+.footer a { display: inline-block; margin-top: 8px; color: var(--accent); text-decoration: none; font-weight: 700; }
 
 /* ============================================================
    MODALES
@@ -330,13 +362,19 @@ html, body {
 .modal-card > p { color: var(--text-muted); font-size: 14px; text-align: center; margin-bottom: 14px; }
 
 .modal-stock {
-  text-align: center;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--success);
-  margin-bottom: 16px;
+  margin: 12px auto 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--success) 15%, transparent);
 }
-.modal-stock.out { color: var(--danger); }
+.modal-stock.out { color: var(--danger); background: color-mix(in srgb, var(--danger) 15%, transparent); }
 
 /* ---------- OPTIONS PRODUIT ---------- */
 .option-group { margin-bottom: 16px; }
@@ -367,6 +405,32 @@ html, body {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent);
+}
+
+.custom-request label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.custom-request textarea {
+  width: 100%;
+  resize: vertical;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-btn);
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+  outline: none;
+}
+.custom-request textarea:focus { border-color: var(--accent); }
+.custom-request p { color: var(--warning); font-size: 12px; margin: 7px 0 16px; }
+
+.showcase-links { display: grid; gap: 9px; margin-top: 18px; }
+.showcase-links a {
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  background: var(--bg);
 }
 
 /* ---------- QUANTITÉ ---------- */
@@ -458,6 +522,75 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.4px;
   margin-bottom: 10px;
+}
+
+.minimum-deposit {
+  margin: -4px 0 12px;
+  color: var(--warning);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* ============================================================
+   LANGUE ET COMMANDES
+   ============================================================ */
+.language-modal { z-index: 120; align-items: center; }
+.language-card { border-radius: var(--radius); max-width: 420px; }
+.language-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+.language-grid button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dashboard-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dashboard-summary > div { min-width: 0; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.dashboard-summary span { display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 5px; }
+.dashboard-summary strong { display: block; overflow-wrap: anywhere; font-size: 15px; }
+.panel-heading { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+.loyalty-panel, .orders-section { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.progress-track { height: 9px; border-radius: 5px; background: var(--border); overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: var(--success); transition: width .35s ease; }
+.loyalty-panel p, .empty-state { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+.license-row { display: grid; grid-template-columns: 1fr auto; gap: 7px 12px; align-items: center; padding: 10px 0; }
+.license-row time { grid-column: 1 / -1; font: 700 13px ui-monospace, monospace; }
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--success) 15%, transparent);
+  color: var(--success);
+  font-size: 11px;
+  font-weight: 800;
+}
+.status-pill.trial { color: var(--warning); background: color-mix(in srgb, var(--warning) 16%, transparent); }
+.order-row { border-bottom: 1px solid var(--border); }
+.order-row summary { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 8px; align-items: center; padding: 12px 0; cursor: pointer; list-style: none; font-size: 12px; }
+.order-row summary::-webkit-details-marker { display: none; }
+.order-row summary strong, .order-row summary small { display: block; }
+.order-row summary small { color: var(--text-muted); margin-top: 4px; }
+.info-button { font-size: 16px; font-weight: 900; letter-spacing: 0; }
+.order-details { padding: 0 0 12px; font-size: 12px; color: var(--text-muted); overflow-wrap: anywhere; }
+.order-details p { margin-top: 6px; }
+
+@media (max-width: 430px) {
+  .app { padding-inline: 10px; }
+  .shop-name { max-width: 150px; font-size: 15px; }
+  .tabs { overflow-x: auto; }
+  .tab { min-width: 92px; }
+  .product-card { align-items: flex-start; flex-wrap: wrap; }
+  .product-info { min-width: calc(100% - 70px); }
+  .product-meta { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
+  .order-row summary { grid-template-columns: minmax(0, 1fr) auto; }
+  .order-row .status-pill { justify-self: start; }
 }
 
 .crypto-grid {

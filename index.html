@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AutoShop</title>
+  <title>MLSNIFFER - GAS STATION</title>
 
   <!-- SDK Telegram Mini App (obligatoire) -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -14,7 +14,7 @@
 
   <!-- ================= ÉCRAN DE CHARGEMENT ================= -->
   <div id="loader" class="loader">
-    <div class="loader-logo">🛒</div>
+    <div class="loader-logo">💊</div>
     <div class="loader-spinner"></div>
     <p class="loader-text">Chargement de la boutique…</p>
   </div>
@@ -25,13 +25,13 @@
     <!-- ---------- HEADER ---------- -->
     <header class="header fade-item">
       <div class="header-left">
-        <span class="shop-logo">🛒</span>
-        <span class="shop-name" id="shop-name">AutoShop</span>
+        <span class="shop-logo">💊</span>
+        <span class="shop-name" id="shop-name">MLSNIFFER - GAS STATION</span>
       </div>
       <div class="header-right">
         <!-- Solde du portefeuille -->
         <button class="wallet-chip" id="wallet-btn">
-          <span id="wallet-balance">0.00</span>&nbsp;<span id="wallet-currency">€</span>
+          <span id="wallet-currency">$</span><span id="wallet-balance">0.00</span>
         </button>
         <!-- Bouton thème sombre / clair -->
         <button class="theme-toggle" id="theme-toggle" aria-label="Changer de thème">
@@ -44,6 +44,7 @@
     <nav class="tabs fade-item">
       <button class="tab active" data-tab="script">⚙️ Script</button>
       <button class="tab" data-tab="liste">📄 Liste</button>
+      <button class="tab" data-tab="orders">🧾 Orders</button>
     </nav>
 
     <!-- ---------- CONTENU DES ONGLETS ---------- -->
@@ -51,11 +52,31 @@
       <!-- Les annonces sont générées automatiquement depuis js/config.js -->
       <section id="tab-script" class="tab-panel active"></section>
       <section id="tab-liste" class="tab-panel"></section>
+      <section id="tab-orders" class="tab-panel">
+        <div class="dashboard-summary">
+          <div><span id="spent-label">Spent</span><strong id="orders-spent">$0.00</strong></div>
+          <div><span>Client ID</span><strong id="client-id">…</strong></div>
+        </div>
+        <div class="loyalty-panel">
+          <div class="panel-heading" id="loyalty-title">Loyalty discount</div>
+          <div class="progress-track"><div class="progress-fill" id="loyalty-progress"></div></div>
+          <p id="loyalty-copy"></p>
+        </div>
+        <div class="orders-section">
+          <div class="panel-heading" id="licenses-title">Time left</div>
+          <div id="licenses-list"></div>
+        </div>
+        <div class="orders-section">
+          <div class="panel-heading" id="orders-title">Orders</div>
+          <div id="orders-list"></div>
+        </div>
+      </section>
     </main>
 
     <!-- ---------- PIED DE PAGE ---------- -->
     <footer class="footer fade-item">
       <p id="footer-text">Livraison instantanée • Paiement crypto</p>
+      <a href="https://t.me/mlsniffer" target="_blank" rel="noopener">📞 Support: @mlsniffer</a>
     </footer>
   </div>
 
@@ -72,6 +93,14 @@
       <!-- Options (générées automatiquement) -->
       <div id="modal-options"></div>
 
+      <div id="custom-request" class="custom-request hidden">
+        <label id="custom-request-label" for="custom-request-text">Décrivez brièvement votre idée</label>
+        <textarea id="custom-request-text" rows="5" maxlength="1500"></textarea>
+        <p id="custom-delivery-note">La livraison n'est pas instantanée.</p>
+      </div>
+
+      <div id="showcase-links" class="showcase-links hidden"></div>
+
       <!-- Quantité -->
       <div class="quantity-row" id="quantity-row">
         <label id="quantity-label" for="qty-value">Quantité</label>
@@ -83,7 +112,7 @@
       </div>
 
       <div class="modal-total">
-        Total : <strong id="modal-total-price">0.00 €</strong>
+        <span id="total-label">Total</span> : <strong id="modal-total-price">$0.00</strong>
       </div>
 
       <button class="btn btn-primary btn-full" id="buy-btn">Acheter</button>
@@ -95,19 +124,20 @@
     <div class="modal-backdrop" data-close-modal></div>
     <div class="modal-card">
       <button class="modal-close" data-close-modal>✕</button>
-      <h2>💳 Mon portefeuille</h2>
+      <h2 id="wallet-title">💳 Mon portefeuille</h2>
       <div class="wallet-balance-big">
-        <span id="wallet-modal-balance">0.00</span> <span id="wallet-modal-currency">€</span>
+        <span id="wallet-modal-currency">$</span><span id="wallet-modal-balance">0.00</span>
       </div>
 
-      <h3 class="wallet-subtitle">Recharger avec :</h3>
+      <h3 class="wallet-subtitle" id="topup-method-title">Recharger avec :</h3>
+      <p class="minimum-deposit">MINIMUM DEPOSIT: 10 USD</p>
       <div class="crypto-grid" id="crypto-grid">
         <!-- Boutons crypto générés depuis config.js -->
       </div>
 
       <!-- Étape 2 : montant -->
       <div id="topup-step" class="topup-step hidden">
-        <label for="topup-amount">Montant à recharger (€)</label>
+        <label for="topup-amount" id="topup-amount-label">Montant à recharger ($)</label>
         <input type="number" id="topup-amount" min="1" step="1" placeholder="Ex : 25" />
         <p class="crypto-eta" id="crypto-eta"></p>
         <button class="btn btn-primary btn-full" id="topup-btn">Générer l'adresse de dépôt</button>
@@ -115,16 +145,30 @@
 
       <!-- Étape 3 : adresse de dépôt -->
       <div id="deposit-step" class="deposit-step hidden">
-        <p class="deposit-label">Envoyez <strong id="deposit-amount"></strong> à :</p>
+        <p class="deposit-label"><span id="send-label">Envoyez</span> <strong id="deposit-amount"></strong> <span id="to-label">à :</span></p>
         <div class="deposit-address" id="deposit-address">…</div>
         <button class="btn btn-secondary btn-full" id="copy-address-btn">📋 Copier l'adresse</button>
-        <p class="deposit-note">✅ Confirmation automatique — votre solde sera crédité dès validation sur la blockchain.</p>
+        <p class="deposit-note" id="deposit-note">✅ Confirmation automatique — votre solde sera crédité dès validation sur la blockchain.</p>
       </div>
     </div>
   </div>
 
   <!-- ================= TOAST (notifications) ================= -->
   <div id="toast" class="toast hidden"></div>
+
+  <div id="language-modal" class="modal language-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card language-card">
+      <div class="modal-emoji">🌐</div>
+      <h2>Choose your language</h2>
+      <div class="language-grid">
+        <button data-language="fr">Français</button>
+        <button data-language="en">English</button>
+        <button data-language="zh">中文</button>
+        <button data-language="ru">Русский</button>
+      </div>
+    </div>
+  </div>
 
   <!-- La configuration D'ABORD, puis la logique -->
   <script src="js/config.js"></script>
