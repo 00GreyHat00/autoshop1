@@ -19,7 +19,7 @@ const SHOP_CONFIG = {
   // ---------- BACKEND ----------
   // URL de ton serveur backend (voir README). Exemple : "https://mon-autoshop.onrender.com"
   frontendUrl: "https://00GreyHat00.github.io/MLSNIFFER---SHOP/",
-  apiUrl: "https://00greyhat00.github.io/autoshop1",
+  apiUrl: "https://mlsniffer-shop.onrender.com",
 
   // ---------- CRYPTOS ACCEPTÉES ----------
   // "eta" = fourchette de temps de confirmation affichée au client
