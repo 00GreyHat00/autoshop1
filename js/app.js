@@ -79,7 +79,8 @@
       },
       ...options,
     });
-    const data = await res.json().catch(() => ({}));
+    const data = await res.json().catch(() => null);
+    if (!data) throw new Error(`Backend injoignable (HTTP ${res.status}) — vérifiez apiUrl`);
     if (!res.ok) throw new Error(data.error || "Erreur serveur");
     return data;
   }
