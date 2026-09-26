@@ -232,8 +232,6 @@ const PRODUCTS = {
           dependsOn: "Pays",
           choices: [
             { label: "Mix", price: 0, availableFor: ["France", "Belgique", "Allemagne", "Pologne", "Portugal", "Luxembourg", "Suisse"] },
-            { label: "outlook.com", price: 0, availableFor: ["France", "Belgique", "Allemagne", "Luxembourg", "Suisse"] },
-            { label: "hotmail.com", price: 0, availableFor: ["France", "Belgique", "Portugal", "Luxembourg"] },
             { label: "orange.fr", price: 0, availableFor: ["France"] },
             { label: "yahoo.fr", price: 0, availableFor: ["France"] },
             { label: "free.fr", price: 0, availableFor: ["France"] },
@@ -254,10 +252,12 @@ const PRODUCTS = {
             { label: "tutanota.com", price: 0, availableFor: ["Portugal"] },
             { label: "post.lu", price: 0, availableFor: ["Luxembourg"] },
             { label: "visualonline.lu", price: 0, availableFor: ["Luxembourg"] },
-            { label: "gmail.com", price: 0, availableFor: ["Suisse"] },
+            { label: "net2000.ch", price: 0, availableFor: ["Suisse"] },
             { label: "bluewin.ch", price: 0, availableFor: ["Suisse"] },
             { label: "gmx.ch", price: 0, availableFor: ["Suisse"] },
             { label: "sunrise.ch", price: 0, availableFor: ["Suisse"] },
+            { label: "teleport.ch", price: 0, availableFor: ["Suisse"] },
+            { label: "zapp.ch", price: 0, availableFor: ["Suisse"] },
           ],
         },
         {
