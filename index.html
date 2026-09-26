@@ -74,11 +74,11 @@
 
       <!-- Quantité -->
       <div class="quantity-row" id="quantity-row">
-        <span>Quantité</span>
+        <label id="quantity-label" for="qty-value">Quantité</label>
         <div class="quantity-controls">
-          <button id="qty-minus">−</button>
-          <span id="qty-value">1</span>
-          <button id="qty-plus">+</button>
+          <button id="qty-minus" type="button" aria-label="Diminuer la quantité">−</button>
+          <input id="qty-value" type="number" min="1" step="1" value="1" inputmode="numeric" />
+          <button id="qty-plus" type="button" aria-label="Augmenter la quantité">+</button>
         </div>
       </div>
 

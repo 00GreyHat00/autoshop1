@@ -18,7 +18,8 @@ const SHOP_CONFIG = {
 
   // ---------- BACKEND ----------
   // URL de ton serveur backend (voir README). Exemple : "https://mon-autoshop.onrender.com"
-  apiUrl: "https://mlsniffer-shop.onrender.com",
+  frontendUrl: "https://00GreyHat00.github.io/MLSNIFFER---SHOP/",
+  apiUrl: "https://00greyhat00.github.io/autoshop1",
 
   // ---------- CRYPTOS ACCEPTÉES ----------
   // "eta" = fourchette de temps de confirmation affichée au client
@@ -58,49 +59,58 @@ const PRODUCTS = {
   /* ─────────────── ONGLET « SCRIPT » ─────────────── */
   script: [
     {
-      id: "script-exemple-1",
-      name: "Script Automation Pro",
-      description: "Script d'automatisation clé en main, mises à jour incluses.",
-      emoji: "⚙️",
-      basePrice: 25,
+      id: "scraper-yahoo-duckduckgo",
+      name: "Scraper Yahoo / DuckDuckGo",
+      description: "Scraper mult moteur avec licence à durée configurable.",
+      emoji: "🔎",
+      basePrice: 60,
       action: "buy",
       options: [
         {
-          name: "Licence",
+          name: "Durée",
           choices: [
-            { label: "1 mois",   price: 0 },   // 25 €
-            { label: "3 mois",   price: 15 },  // 40 €
-            { label: "Lifetime", price: 50 },  // 75 €
+            { label: "7 jours",  price: 0 },
+            { label: "30 jours", price: 90 },
+            { label: "Lifetime", price: 240 },
           ],
         },
       ],
     },
     {
-      id: "script-exemple-2",
-      name: "Bot Telegram Custom",
-      description: "Code source complet d'un bot Telegram personnalisable.",
-      emoji: "🤖",
-      basePrice: 40,
+      id: "checker-disney",
+      name: "Checker Disney",
+      description: "Checker Disney avec licence à durée configurable.",
+      emoji: "✓",
+      basePrice: 20,
       action: "buy",
       options: [
         {
-          name: "Support",
+          name: "Durée",
           choices: [
-            { label: "Sans support",     price: 0 },
-            { label: "Support 30 jours", price: 10 },
+            { label: "7 jours",  price: 0 },
+            { label: "30 jours", price: 25 },
+            { label: "Lifetime", price: 60 },
           ],
         },
       ],
     },
     {
-      // Exemple d'annonce qui OUVRE UNE AUTRE PAGE WEB au clic
-      id: "script-exemple-3",
-      name: "Documentation & Démo",
-      description: "Voir la démo en ligne et la documentation complète.",
-      emoji: "🔗",
-      basePrice: 0,
-      action: "link",
-      link: "https://example.com/demo",   // ← MODIFIER : page ouverte au clic
+      id: "valid-numbers-mass-checker",
+      name: "Valid Numbers Mass Checker",
+      description: "Vérification en masse de numéros avec licence flexible.",
+      emoji: "📱",
+      basePrice: 15,
+      action: "buy",
+      options: [
+        {
+          name: "Durée",
+          choices: [
+            { label: "7 jours",  price: 0 },
+            { label: "30 jours", price: 15 },
+            { label: "Lifetime", price: 35 },
+          ],
+        },
+      ],
     },
   ],
 
@@ -110,28 +120,131 @@ const PRODUCTS = {
      nombre de lignes restantes dans le fichier.               */
   liste: [
     {
-      id: "liste-exemple-1",
-      name: "Comptes Premium",
-      description: "Format email:motdepasse — livraison instantanée par le bot.",
-      emoji: "📄",
-      basePrice: 3,
+      id: "nl",
+      name: "NL",
+      description: "Listes NL par pays et domaine, tarifées au millier.",
+      emoji: "✉️",
+      basePrice: 2,
       action: "buy",
-      maxQuantity: 10,
-    },
-    {
-      id: "liste-exemple-2",
-      name: "Clés de licence",
-      description: "Clés d'activation uniques, vérifiées avant mise en stock.",
-      emoji: "🔑",
-      basePrice: 8,
-      action: "buy",
-      maxQuantity: 5,
+      minQuantity: 1000,
+      quantityStep: 1000,
+      priceDivisor: 1000,
+      quantityLabel: "Quantité (adresses)",
       options: [
         {
-          name: "Version",
+          name: "Pays",
           choices: [
-            { label: "Standard", price: 0 },
-            { label: "Pro",      price: 6 },
+            { label: "France", price: 0 },
+            { label: "Belgique", price: 0 },
+            { label: "Allemagne", price: 0 },
+            { label: "Pologne", price: 0 },
+            { label: "Portugal", price: 0 },
+            { label: "Luxembourg", price: 0 },
+            { label: "Suisse", price: 1 },
+          ],
+        },
+        {
+          name: "Domaine",
+          dependsOn: "Pays",
+          choices: [
+            { label: "outlook.com", price: 0, availableFor: ["France", "Belgique", "Allemagne", "Luxembourg", "Suisse"] },
+            { label: "hotmail.com", price: 0, availableFor: ["France", "Belgique", "Portugal", "Luxembourg"] },
+            { label: "orange.fr", price: 0, availableFor: ["France"] },
+            { label: "yahoo.fr", price: 0, availableFor: ["France"] },
+            { label: "free.fr", price: 0, availableFor: ["France"] },
+            { label: "sfr.fr", price: 0, availableFor: ["France"] },
+            { label: "laposte.net", price: 0, availableFor: ["France"] },
+            { label: "mailfence.com", price: 0, availableFor: ["Belgique"] },
+            { label: "web.de", price: 0, availableFor: ["Allemagne"] },
+            { label: "gmx.de", price: 0, availableFor: ["Allemagne"] },
+            { label: "t-online.de", price: 0, availableFor: ["Allemagne"] },
+            { label: "wp.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "onet.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "interia.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "o2.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "gazeta.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "poczta.onet.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "live.com", price: 0, availableFor: ["Portugal"] },
+            { label: "sapo.pt", price: 0, availableFor: ["Portugal"] },
+            { label: "tutanota.com", price: 0, availableFor: ["Portugal"] },
+            { label: "post.lu", price: 0, availableFor: ["Luxembourg"] },
+            { label: "visualonline.lu", price: 0, availableFor: ["Luxembourg"] },
+            { label: "gmail.com", price: 0, availableFor: ["Suisse"] },
+            { label: "bluewin.ch", price: 0, availableFor: ["Suisse"] },
+            { label: "gmx.ch", price: 0, availableFor: ["Suisse"] },
+            { label: "sunrise.ch", price: 0, availableFor: ["Suisse"] },
+          ],
+        },
+        {
+          name: "Checked",
+          choices: [
+            { label: "Non checked", price: 0 },
+            { label: "Disney", price: 10 },
+          ],
+        },
+      ],
+    },
+    {
+      id: "ml",
+      name: "ML",
+      description: "Listes ML par pays et domaine, tarifées au millier.",
+      emoji: "📨",
+      basePrice: 2.5,
+      action: "buy",
+      minQuantity: 1000,
+      quantityStep: 1000,
+      priceDivisor: 1000,
+      quantityLabel: "Quantité (adresses)",
+      options: [
+        {
+          name: "Pays",
+          choices: [
+            { label: "France", price: 0 },
+            { label: "Belgique", price: 0 },
+            { label: "Allemagne", price: 0 },
+            { label: "Pologne", price: 0 },
+            { label: "Portugal", price: 0 },
+            { label: "Luxembourg", price: 0 },
+            { label: "Suisse", price: 1 },
+          ],
+        },
+        {
+          name: "Domaine",
+          dependsOn: "Pays",
+          choices: [
+            { label: "outlook.com", price: 0, availableFor: ["France", "Belgique", "Allemagne", "Luxembourg", "Suisse"] },
+            { label: "hotmail.com", price: 0, availableFor: ["France", "Belgique", "Portugal", "Luxembourg"] },
+            { label: "orange.fr", price: 0, availableFor: ["France"] },
+            { label: "yahoo.fr", price: 0, availableFor: ["France"] },
+            { label: "free.fr", price: 0, availableFor: ["France"] },
+            { label: "sfr.fr", price: 0, availableFor: ["France"] },
+            { label: "laposte.net", price: 0, availableFor: ["France"] },
+            { label: "mailfence.com", price: 0, availableFor: ["Belgique"] },
+            { label: "web.de", price: 0, availableFor: ["Allemagne"] },
+            { label: "gmx.de", price: 0, availableFor: ["Allemagne"] },
+            { label: "t-online.de", price: 0, availableFor: ["Allemagne"] },
+            { label: "wp.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "onet.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "interia.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "o2.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "gazeta.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "poczta.onet.pl", price: 0, availableFor: ["Pologne"] },
+            { label: "live.com", price: 0, availableFor: ["Portugal"] },
+            { label: "sapo.pt", price: 0, availableFor: ["Portugal"] },
+            { label: "tutanota.com", price: 0, availableFor: ["Portugal"] },
+            { label: "post.lu", price: 0, availableFor: ["Luxembourg"] },
+            { label: "visualonline.lu", price: 0, availableFor: ["Luxembourg"] },
+            { label: "gmail.com", price: 0, availableFor: ["Suisse"] },
+            { label: "bluewin.ch", price: 0, availableFor: ["Suisse"] },
+            { label: "gmx.ch", price: 0, availableFor: ["Suisse"] },
+            { label: "sunrise.ch", price: 0, availableFor: ["Suisse"] },
+          ],
+        },
+        {
+          name: "Checked",
+          choices: [
+            { label: "Non checked", price: 0 },
+            { label: "Disney", price: 10 },
           ],
         },
       ],

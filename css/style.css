@@ -400,7 +400,20 @@ html, body {
   cursor: pointer;
 }
 
-#qty-value { min-width: 24px; text-align: center; font-weight: 700; }
+#qty-value {
+  width: 88px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  text-align: center;
+  font: inherit;
+  font-weight: 700;
+  appearance: textfield;
+}
+
+#qty-value::-webkit-inner-spin-button,
+#qty-value::-webkit-outer-spin-button { appearance: none; margin: 0; }
 
 .modal-total {
   text-align: center;

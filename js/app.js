@@ -88,6 +88,10 @@
     return price;
   }
 
+  function priceSuffix(product) {
+    return product.priceDivisor === 1000 ? " / K" : "";
+  }
+
   function stockLabel(product) {
     const stock = state.stock[product.id];
     if (product.action === "link") return "";
@@ -112,7 +116,9 @@
           </div>
           <div class="product-meta">
             <span class="product-price">${
-              product.action === "link" ? "Voir ↗" : "dès " + fmt(minPrice(product))
+              product.action === "link"
+                ? "Voir ↗"
+                : "dès " + fmt(minPrice(product)) + priceSuffix(product)
             }</span>
             ${stockLabel(product)}
           </div>`;
@@ -138,43 +144,68 @@
   function openProductModal(product) {
     state.currentProduct = product;
     state.selectedOptions = {};
-    state.quantity = 1;
+    state.quantity = product.minQuantity || 1;
 
     $("#modal-emoji").textContent = product.emoji || "📦";
     $("#modal-title").textContent = product.name;
     $("#modal-description").textContent = product.description;
 
-    // Options
-    const optsEl = $("#modal-options");
-    optsEl.innerHTML = "";
     (product.options || []).forEach((opt) => {
       state.selectedOptions[opt.name] = 0; // premier choix par défaut
-      const group = document.createElement("div");
-      group.className = "option-group";
-      group.innerHTML = `<div class="option-label">${opt.name}</div>`;
-      const choices = document.createElement("div");
-      choices.className = "option-choices";
-      opt.choices.forEach((choice, idx) => {
-        const btn = document.createElement("button");
-        btn.className = "option-choice" + (idx === 0 ? " selected" : "");
-        btn.textContent =
-          choice.price > 0 ? `${choice.label} (+${fmt(choice.price)})` : choice.label;
-        btn.addEventListener("click", () => {
-          state.selectedOptions[opt.name] = idx;
-          choices.querySelectorAll(".option-choice").forEach((b, i) =>
-            b.classList.toggle("selected", i === idx)
-          );
-          updateModalPrice();
-        });
-        choices.appendChild(btn);
-      });
-      group.appendChild(choices);
-      optsEl.appendChild(group);
     });
+    renderProductOptions();
 
     updateModalStock();
     updateModalPrice();
     $("#product-modal").classList.remove("hidden");
+  }
+
+  function availableChoices(option) {
+    if (!option.dependsOn) return option.choices.map((choice, index) => ({ choice, index }));
+
+    const dependency = state.currentProduct.options.find((opt) => opt.name === option.dependsOn);
+    const dependencyChoice = dependency?.choices[state.selectedOptions[option.dependsOn]];
+    return option.choices
+      .map((choice, index) => ({ choice, index }))
+      .filter(({ choice }) => choice.availableFor?.includes(dependencyChoice?.label));
+  }
+
+  function renderProductOptions() {
+    const product = state.currentProduct;
+    const optsEl = $("#modal-options");
+    optsEl.innerHTML = "";
+
+    (product.options || []).forEach((option) => {
+      const available = availableChoices(option);
+      if (!available.some(({ index }) => index === state.selectedOptions[option.name])) {
+        state.selectedOptions[option.name] = available[0]?.index ?? 0;
+      }
+
+      const group = document.createElement("div");
+      group.className = "option-group";
+      group.innerHTML = `<div class="option-label">${option.name}</div>`;
+      const choices = document.createElement("div");
+      choices.className = "option-choices";
+
+      available.forEach(({ choice, index }) => {
+        const btn = document.createElement("button");
+        btn.className = "option-choice" +
+          (index === state.selectedOptions[option.name] ? " selected" : "");
+        const suffix = product.priceDivisor === 1000 ? " / K" : "";
+        btn.textContent = choice.price > 0
+          ? `${choice.label} (+${fmt(choice.price)}${suffix})`
+          : choice.label;
+        btn.addEventListener("click", () => {
+          state.selectedOptions[option.name] = index;
+          renderProductOptions();
+          updateModalPrice();
+        });
+        choices.appendChild(btn);
+      });
+
+      group.appendChild(choices);
+      optsEl.appendChild(group);
+    });
   }
 
   function unitPrice() {
@@ -186,6 +217,11 @@
     return price;
   }
 
+  function totalPrice() {
+    const divisor = state.currentProduct.priceDivisor || 1;
+    return unitPrice() * state.quantity / divisor;
+  }
+
   function maxBuyable() {
     const p = state.currentProduct;
     const stock = state.stock[p.id] ?? 0;
@@ -195,7 +231,8 @@
   function updateModalStock() {
     const stock = state.stock[state.currentProduct.id] ?? 0;
     const el = $("#modal-stock");
-    if (stock <= 0) {
+    const minimum = state.currentProduct.minQuantity || 1;
+    if (stock < minimum) {
       el.textContent = "❌ Rupture de stock";
       el.classList.add("out");
       $("#buy-btn").disabled = true;
@@ -209,25 +246,42 @@
   }
 
   function updateModalPrice() {
-    $("#qty-value").textContent = state.quantity;
-    $("#modal-total-price").textContent = fmt(unitPrice() * state.quantity);
+    const product = state.currentProduct;
+    const quantityInput = $("#qty-value");
+    quantityInput.value = state.quantity;
+    quantityInput.min = product.minQuantity || 1;
+    quantityInput.max = maxBuyable();
+    quantityInput.step = product.quantityStep || 1;
+    $("#quantity-label").textContent = product.quantityLabel || "Quantité";
+    $("#modal-total-price").textContent = fmt(totalPrice());
   }
 
   function initQuantityControls() {
     $("#qty-minus").addEventListener("click", () => {
-      if (state.quantity > 1) {
-        state.quantity--;
+      const minimum = state.currentProduct.minQuantity || 1;
+      const step = state.currentProduct.quantityStep || 1;
+      if (state.quantity > minimum) {
+        state.quantity = Math.max(minimum, state.quantity - step);
         updateModalPrice();
       }
     });
     $("#qty-plus").addEventListener("click", () => {
-      // ⛔ Impossible de dépasser le stock disponible
-      if (state.quantity < maxBuyable()) {
-        state.quantity++;
+      const step = state.currentProduct.quantityStep || 1;
+      if (state.quantity + step <= maxBuyable()) {
+        state.quantity += step;
         updateModalPrice();
       } else {
         toast("Stock maximum atteint");
       }
+    });
+    $("#qty-value").addEventListener("change", (event) => {
+      const minimum = state.currentProduct.minQuantity || 1;
+      const maximum = maxBuyable();
+      const requested = Math.floor(Number(event.target.value));
+      state.quantity = Number.isFinite(requested)
+        ? Math.min(maximum, Math.max(minimum, requested))
+        : minimum;
+      updateModalPrice();
     });
   }
 
@@ -236,7 +290,7 @@
   // ============================================================
   async function buy() {
     const p = state.currentProduct;
-    const total = unitPrice() * state.quantity;
+    const total = totalPrice();
 
     if (total > state.balance) {
       toast("Solde insuffisant — rechargez votre portefeuille 💳");
@@ -398,7 +452,9 @@
     } catch {
       // Backend injoignable → mode démo (stock fictif pour prévisualiser)
       console.warn("Backend injoignable — mode démo activé");
-      Object.values(PRODUCTS).flat().forEach((p) => (state.stock[p.id] = 12));
+      Object.values(PRODUCTS).flat().forEach((p) => {
+        state.stock[p.id] = p.priceDivisor === 1000 ? 100000 : 12;
+      });
     }
     updateBalanceUI();
     renderProducts();
