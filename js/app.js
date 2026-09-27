@@ -28,14 +28,14 @@
     quantity: 1,
     selectedCrypto: null,
     language: "en",
-    dashboard: { spent: 0, orders: [], licenses: [], clientId: "" },
+    dashboard: { spent: 0, orders: [], licenses: [] },
   };
 
   const TEXT = {
-    en: { script: "Script", list: "List", orders: "Orders", loading: "Loading shop…", buy: "Buy", quantity: "Quantity", stock: "in stock", soldOut: "Out of stock", from: "from", view: "View ↗", spent: "Spent", loyalty: "Loyalty discount", timeLeft: "Time left", noLicenses: "No active subscriptions", noOrders: "No orders yet", next: "until", lifetime: "Lifetime", trial: "Trial", idea: "Briefly describe your idea", delayed: "Delivery is not instant.", insufficient: "Insufficient balance — top up your wallet", success: "Purchase successful!", options: "Options", wallet: "💳 My wallet", topupWith: "Top up with:", amount: "Amount to deposit ($)", generate: "Generate deposit address", send: "Send", to: "to:", copy: "📋 Copy address", confirmation: "✅ Automatic confirmation — your balance will be credited after blockchain validation.", total: "Total", footer: "Instant delivery • Crypto payment" },
-    fr: { script: "Script", list: "Liste", orders: "Commandes", loading: "Chargement de la boutique…", buy: "Acheter", quantity: "Quantité", stock: "en stock", soldOut: "Rupture de stock", from: "dès", view: "Voir ↗", spent: "Dépensé", loyalty: "Remise fidélité", timeLeft: "Temps restant", noLicenses: "Aucun abonnement actif", noOrders: "Aucune commande", next: "avant", lifetime: "Lifetime", trial: "Essai", idea: "Décrivez brièvement votre idée", delayed: "La livraison n'est pas instantanée.", insufficient: "Solde insuffisant — rechargez votre portefeuille", success: "Achat réussi !", options: "Options", wallet: "💳 Mon portefeuille", topupWith: "Recharger avec :", amount: "Montant à recharger ($)", generate: "Générer l'adresse de dépôt", send: "Envoyez", to: "à :", copy: "📋 Copier l'adresse", confirmation: "✅ Confirmation automatique — votre solde sera crédité dès validation sur la blockchain.", total: "Total", footer: "Livraison instantanée • Paiement crypto" },
-    zh: { script: "脚本", list: "列表", orders: "订单", loading: "商店加载中…", buy: "购买", quantity: "数量", stock: "库存", soldOut: "缺货", from: "起价", view: "查看 ↗", spent: "已消费", loyalty: "忠诚度折扣", timeLeft: "剩余时间", noLicenses: "没有有效订阅", noOrders: "暂无订单", next: "距离", lifetime: "永久", trial: "试用", idea: "简要描述您的想法", delayed: "此商品不会即时交付。", insufficient: "余额不足，请充值", success: "购买成功！", options: "选项", wallet: "💳 我的钱包", topupWith: "充值方式：", amount: "充值金额 ($)", generate: "生成存款地址", send: "发送", to: "至：", copy: "📋 复制地址", confirmation: "✅ 自动确认 — 区块链验证后余额将自动到账。", total: "总计", footer: "即时交付 • 加密货币支付" },
-    ru: { script: "Скрипты", list: "Списки", orders: "Заказы", loading: "Загрузка магазина…", buy: "Купить", quantity: "Количество", stock: "в наличии", soldOut: "Нет в наличии", from: "от", view: "Смотреть ↗", spent: "Потрачено", loyalty: "Скидка за лояльность", timeLeft: "Осталось времени", noLicenses: "Нет активных подписок", noOrders: "Заказов пока нет", next: "до", lifetime: "Навсегда", trial: "Пробный", idea: "Кратко опишите вашу идею", delayed: "Доставка не мгновенная.", insufficient: "Недостаточно средств — пополните кошелек", success: "Покупка завершена!", options: "Опции", wallet: "💳 Мой кошелек", topupWith: "Пополнить с помощью:", amount: "Сумма пополнения ($)", generate: "Создать адрес пополнения", send: "Отправьте", to: "на:", copy: "📋 Копировать адрес", confirmation: "✅ Автоподтверждение — баланс будет зачислен после проверки блокчейном.", total: "Итого", footer: "Мгновенная доставка • Оплата криптовалютой" },
+    en: { script: "Script", list: "List", orders: "Orders", loading: "Loading shop…", buy: "Buy", quantity: "Quantity", stock: "in stock", soldOut: "Out of stock", from: "from", view: "View ↗", spent: "Spent", loyalty: "Loyalty discount", timeLeft: "Time left", noLicenses: "No active subscriptions", noOrders: "No orders yet", next: "until", lifetime: "Lifetime", trial: "Trial", showClientId: "Show", idea: "Briefly describe your idea", delayed: "Delivery is not instant.", insufficient: "Insufficient balance — top up your wallet", success: "Purchase successful!", options: "Options", wallet: "💳 My wallet", topupWith: "Top up with:", amount: "Amount to deposit ($)", generate: "Generate deposit address", send: "Send", to: "to:", copy: "📋 Copy address", confirmation: "✅ Automatic confirmation — your balance will be credited after blockchain validation.", total: "Total", footer: "Instant delivery • Crypto payment" },
+    fr: { script: "Script", list: "Liste", orders: "Commandes", loading: "Chargement de la boutique…", buy: "Acheter", quantity: "Quantité", stock: "en stock", soldOut: "Rupture de stock", from: "dès", view: "Voir ↗", spent: "Dépensé", loyalty: "Remise fidélité", timeLeft: "Temps restant", noLicenses: "Aucun abonnement actif", noOrders: "Aucune commande", next: "avant", lifetime: "Lifetime", trial: "Essai", showClientId: "Afficher", idea: "Décrivez brièvement votre idée", delayed: "La livraison n'est pas instantanée.", insufficient: "Solde insuffisant — rechargez votre portefeuille", success: "Achat réussi !", options: "Options", wallet: "💳 Mon portefeuille", topupWith: "Recharger avec :", amount: "Montant à recharger ($)", generate: "Générer l'adresse de dépôt", send: "Envoyez", to: "à :", copy: "📋 Copier l'adresse", confirmation: "✅ Confirmation automatique — votre solde sera crédité dès validation sur la blockchain.", total: "Total", footer: "Livraison instantanée • Paiement crypto" },
+    zh: { script: "脚本", list: "列表", orders: "订单", loading: "商店加载中…", buy: "购买", quantity: "数量", stock: "库存", soldOut: "缺货", from: "起价", view: "查看 ↗", spent: "已消费", loyalty: "忠诚度折扣", timeLeft: "剩余时间", noLicenses: "没有有效订阅", noOrders: "暂无订单", next: "距离", lifetime: "永久", trial: "试用", showClientId: "显示", idea: "简要描述您的想法", delayed: "此商品不会即时交付。", insufficient: "余额不足，请充值", success: "购买成功！", options: "选项", wallet: "💳 我的钱包", topupWith: "充值方式：", amount: "充值金额 ($)", generate: "生成存款地址", send: "发送", to: "至：", copy: "📋 复制地址", confirmation: "✅ 自动确认 — 区块链验证后余额将自动到账。", total: "总计", footer: "即时交付 • 加密货币支付" },
+    ru: { script: "Скрипты", list: "Списки", orders: "Заказы", loading: "Загрузка магазина…", buy: "Купить", quantity: "Количество", stock: "в наличии", soldOut: "Нет в наличии", from: "от", view: "Смотреть ↗", spent: "Потрачено", loyalty: "Скидка за лояльность", timeLeft: "Осталось времени", noLicenses: "Нет активных подписок", noOrders: "Заказов пока нет", next: "до", lifetime: "Навсегда", trial: "Пробный", showClientId: "Показать", idea: "Кратко опишите вашу идею", delayed: "Доставка не мгновенная.", insufficient: "Недостаточно средств — пополните кошелек", success: "Покупка завершена!", options: "Опции", wallet: "💳 Мой кошелек", topupWith: "Пополнить с помощью:", amount: "Сумма пополнения ($)", generate: "Создать адрес пополнения", send: "Отправьте", to: "на:", copy: "📋 Копировать адрес", confirmation: "✅ Автоподтверждение — баланс будет зачислен после проверки блокчейном.", total: "Итого", footer: "Мгновенная доставка • Оплата криптовалютой" },
   };
 
   const OPTION_TEXT = {
@@ -301,6 +301,9 @@
       $("#buy-btn").disabled = false;
       $("#quantity-row").classList.toggle("hidden", state.currentProduct.customText);
     }
+    // List stock is shown on the option chips instead of this indicator.
+    el.classList.toggle("hidden", state.currentProduct.action !== "buy" ||
+      (state.currentProduct.priceDivisor === 1000 && stock >= minimum));
   }
 
   async function updateSelectionStock() {
@@ -495,6 +498,21 @@
     $("#buy-btn").addEventListener("click", buy);
     $("#topup-btn").addEventListener("click", requestTopup);
     $("#copy-address-btn").addEventListener("click", copyAddress);
+    $("#reveal-client-id").addEventListener("click", revealClientId);
+  }
+
+  async function revealClientId() {
+    const button = $("#reveal-client-id");
+    button.disabled = true;
+    try {
+      const { clientId } = await api("/api/client-id");
+      $("#client-id").textContent = clientId;
+      $("#client-id").classList.remove("hidden");
+      button.classList.add("hidden");
+    } catch (err) {
+      toast(`❌ ${err.message}`);
+      button.disabled = false;
+    }
   }
 
   // ============================================================
@@ -550,9 +568,8 @@
   }
 
   function renderDashboard() {
-    const { spent, clientId, licenses, orders } = state.dashboard;
+    const { spent, licenses, orders } = state.dashboard;
     $("#orders-spent").textContent = fmt(spent);
-    $("#client-id").textContent = clientId || "—";
     $("#spent-label").textContent = t("spent");
     $("#loyalty-title").textContent = t("loyalty");
     $("#licenses-title").textContent = t("timeLeft");
@@ -588,6 +605,7 @@
     $(".loader-text").textContent = t("loading");
     $("#buy-btn").textContent = t("buy");
     $("#custom-request-label").textContent = t("idea");
+    $("#reveal-client-id").textContent = t("showClientId");
     $("#custom-delivery-note").textContent = t("delayed");
     $("#wallet-title").textContent = t("wallet");
     $("#topup-method-title").textContent = t("topupWith");

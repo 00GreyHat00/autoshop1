@@ -552,6 +552,18 @@ html, body {
 .dashboard-summary > div { min-width: 0; padding: 14px 0; border-bottom: 1px solid var(--border); }
 .dashboard-summary span { display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 5px; }
 .dashboard-summary strong { display: block; overflow-wrap: anywhere; font-size: 15px; }
+.client-id-button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 9px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.client-id-button:disabled { opacity: 0.5; cursor: not-allowed; }
 .panel-heading { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
 .loyalty-panel, .orders-section { padding: 16px 0; border-bottom: 1px solid var(--border); }
 .progress-track { height: 9px; border-radius: 5px; background: var(--border); overflow: hidden; }
