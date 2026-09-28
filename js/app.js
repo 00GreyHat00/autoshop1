@@ -57,6 +57,13 @@
     return product.translations?.[state.language] || product;
   }
 
+  function selectedOptionPayload(product = state.currentProduct) {
+    return Object.fromEntries((product.options || []).map((option) => [
+      option.name,
+      option.choices[state.selectedOptions[option.name]]?.label,
+    ]));
+  }
+
   function productVisual(product, className = "product-image") {
     return product.image
       ? `<img class="${className}" src="${safe(product.image)}" alt="" />`
@@ -244,7 +251,7 @@
           (index === state.selectedOptions[option.name] ? " selected" : "");
         const suffix = product.priceDivisor === 1000 ? " / K" : "";
         const label = optionText(choice.label);
-        const count = state.choiceCounts[option.name]?.[index];
+        const count = state.choiceCounts[option.name]?.[choice.label];
         const countSuffix = count === undefined ? "" : ` · ${compact(count)}`;
         btn.textContent = choice.price > 0
           ? `${label}${countSuffix} (+${fmt(choice.price)}${suffix})`
@@ -313,7 +320,7 @@
     try {
       const result = await api("/api/stock/selection", {
         method: "POST",
-        body: JSON.stringify({ productId: product.id, options: state.selectedOptions }),
+        body: JSON.stringify({ productId: product.id, options: selectedOptionPayload(product) }),
       });
       if (state.currentProduct !== requestedProduct) return;
       state.selectionStock = result.stock;
@@ -385,7 +392,7 @@
         body: JSON.stringify({
           productId: p.id,
           quantity: state.quantity,
-          options: state.selectedOptions,
+          options: selectedOptionPayload(p),
           customText: $("#custom-request-text").value.trim(),
         }),
       });
